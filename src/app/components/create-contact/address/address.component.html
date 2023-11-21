@@ -1,0 +1,34 @@
+<div class="container">
+  <div validationWrapper class="flex-column">
+    <label for="street">Street</label>
+    <input
+      type="text"
+      pInputText
+      [ngModel]="address?.street"
+      name="street"
+      id="street"
+      style="width: 530px"
+    />
+  </div>
+
+  <div class="flex-column">
+    <label for="zipcode">Zip code</label>
+    <input
+      type="text"
+      pInputText
+      [ngModel]="address?.zipcode"
+      name="zipcode"
+      id="zipcode"
+    />
+  </div>
+  <div class="flex-column">
+    <label for="city">City</label>
+    <input
+      type="text"
+      pInputText
+      [ngModel]="address?.city"
+      name="city"
+      id="city"
+    />
+  </div>
+</div>

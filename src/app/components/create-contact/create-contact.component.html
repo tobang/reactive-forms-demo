@@ -1,0 +1,45 @@
+<div class="form-container" *ngIf="this.form$ | async as form">
+  <h2>Contact form</h2>
+  <form
+    (formValueChange)="actions.formValueChange($event)"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex-column">
+      <label for="firstName">First name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.firstName"
+        name="firstName"
+        id="firstName"
+      />
+    </div>
+    <div class="flex-column">
+      <label for="lastName">Last name</label>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="form.lastName"
+        name="lastName"
+        id="lastName"
+      />
+    </div>
+
+    <ng-container ngModelGroup="addresses">
+      <ng-container ngModelGroup="homeAddress">
+        <app-address [address]="form.addresses?.homeAddress"></app-address>
+      </ng-container>
+    </ng-container>
+
+    <button pButton label="Submit" type="submit"></button>
+    <button
+      pButton
+      label="Reset"
+      type="reset"
+      class="p-button-success"
+    ></button>
+  </form>
+ <!--  <pre>
+    {{ formValue | json }}
+  </pre> -->
+</div>
