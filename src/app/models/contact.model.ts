@@ -1,6 +1,7 @@
 import { AddressModel } from './address.model';
 
-export type ContactModel = {
+export interface ContactModel {
+  id?: string;
   firstName?: string;
   lastName?: string;
   addresses?: {
@@ -8,4 +9,4 @@ export type ContactModel = {
     workAddress?: AddressModel;
     includeWorkAddress?: boolean;
   };
-};
+}

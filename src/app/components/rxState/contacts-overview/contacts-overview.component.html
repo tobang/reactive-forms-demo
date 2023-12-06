@@ -1,0 +1,19 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <app-upsert-contact
+    (submitForm)="actions.upsertContact($event)"
+  ></app-upsert-contact>
+  <hr />
+  <div class="table-container">
+    <h2>Contacts</h2>
+    <app-contacts-list
+      [contacts]="vm.contacts"
+      (rowSelected)="actions.rowSelected($event)"
+      (rowUnSelected)="actions.rowUnselected()"
+      (removeContact)="actions.removeContact($event)"
+    >
+    </app-contacts-list>
+    <div class="selected" *ifNotObjectEmpty="vm.selectedRow">
+      Selected contact: {{ vm.selectedRow.firstName }} {{ vm.selectedRow.lastName }}
+    </div>
+  </div>
+</ng-container>

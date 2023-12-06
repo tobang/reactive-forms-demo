@@ -1,0 +1,33 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="button-container" *ngIf="vm.selectedRow">
+    <p-button
+      label="remove selected"
+      [text]="true"
+      [plain]="true"
+      (onClick)="actions.removeContact(vm.selectedRow)"
+    ></p-button>
+  </div>
+  <p-table
+    [value]="vm.contacts"
+    [tableStyle]="{ 'min-width': '38rem' }"
+    [selectionMode]="'single'"
+    [selection]="vm.selectedRow"
+    (onRowSelect)="actions.rowSelected($event)"
+    (onRowUnselect)="actions.rowUnselected()"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>First name</th>
+        <th>Last name</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-contact>
+      <tr [pSelectableRow]="contact">
+        <td>{{ contact.id }}</td>
+        <td>{{ contact.firstName }}</td>
+        <td>{{ contact.lastName }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-container>
