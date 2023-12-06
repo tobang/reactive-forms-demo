@@ -43,8 +43,8 @@ export class UpsertContactComponent {
   });
 
   @Output() submitForm = this.actions.submit$;
-  @Input() set form(contact: ContactModel | null) {
-    this.state.set({ form: contact ?? undefined });
+  @Input() set contact(contact: ContactModel | undefined) {
+    this.state.set({ form: contact ?? {} });
   }
 
   // View

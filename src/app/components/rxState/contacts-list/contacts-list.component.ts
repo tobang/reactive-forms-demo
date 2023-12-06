@@ -40,12 +40,18 @@ export class ContactsListComponent {
         selectedRow: event.data,
       }));
       connect(
-        this.actions.rowUnselected$.pipe(map(() => ({ selectedRow: {} })))
+        this.actions.rowUnselected$.pipe(
+          map(() => ({ selectedRow: undefined }))
+        )
       );
       connect(
-        this.actions.removeContact$.pipe(map(() => ({ selectedRow: {} })))
+        this.actions.removeContact$.pipe(
+          map(() => ({ selectedRow: undefined }))
+        )
       );
-      // Todo: connect a service to show how this is done
+      connect(
+        this.actions.editContact$.pipe(map(() => ({ selectedRow: undefined })))
+      );
     }
   );
 

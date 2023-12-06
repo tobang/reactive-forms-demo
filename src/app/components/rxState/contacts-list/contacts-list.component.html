@@ -1,7 +1,13 @@
 <ng-container *ngIf="vm$ | async as vm">
   <div class="button-container" *ngIf="vm.selectedRow">
     <p-button
-      label="remove selected"
+      label="Edit selected"
+      [text]="true"
+      [plain]="true"
+      (onClick)="actions.editContact(vm.selectedRow)"
+    ></p-button>
+    <p-button
+      label="Remove selected"
       [text]="true"
       [plain]="true"
       (onClick)="actions.removeContact(vm.selectedRow)"

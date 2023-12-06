@@ -7,7 +7,7 @@ import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 
-import { uid } from 'radash';
+import { replaceOrAppend, uid } from 'radash';
 
 import { UpsertContactComponent } from '../upsert-contact/upsert-contact.component';
 import { ContactModel } from '../../../models/contact.model';
@@ -37,29 +37,41 @@ export class ContactsOverviewComponent {
     rowSelected: ContactModel;
     rowUnselected: void;
   }>();
-  state = rxState<{ contacts: ContactModel[]; selectedRow: ContactModel }>(
-    ({ connect, set }) => {
-      set({ contacts: [] });
-      connect(
-        this.actions.upsertContact$.pipe(
-          map((form) => ({ ...form, ...{ id: uid(7) } }))
+  state = rxState<{
+    contacts: ContactModel[];
+    selectedRow: ContactModel;
+    editedContact: ContactModel;
+  }>(({ connect, set }) => {
+    set({ contacts: [] });
+    connect(
+      this.actions.upsertContact$.pipe(
+        map((contact) =>
+          'id' in contact ? contact : { ...contact, ...{ id: uid(7) } }
+        )
+      ),
+      (oldstate, contact) => ({
+        // contacts: [...oldstate.contacts, contact],
+        contacts: replaceOrAppend(
+          oldstate.contacts,
+          contact,
+          (c) => c.id === contact.id
         ),
-        (oldstate, contact) => ({
-          contacts: [...oldstate.contacts, contact],
-        })
-      );
-      connect(this.actions.rowSelected$, (_, contact) => ({
-        selectedRow: contact,
-      }));
-      connect(this.actions.rowUnselected$, () => ({
-        selectedRow: {},
-      }));
-      connect(this.actions.removeContact$, (state, contact) => ({
-        contacts: state.contacts.filter((value) => value.id !== contact.id),
-        selectedRow: {},
-      }));
-    }
-  );
+      })
+    );
+    connect(this.actions.rowSelected$, (_, contact) => ({
+      selectedRow: contact,
+    }));
+    connect(this.actions.rowUnselected$, () => ({
+      selectedRow: {},
+    }));
+    connect(this.actions.removeContact$, (state, contact) => ({
+      contacts: state.contacts.filter((value) => value.id !== contact.id),
+      selectedRow: {},
+    }));
+    connect(this.actions.editContact$, (_, contact) => ({
+      editedContact: contact,
+    }));
+  });
   all$ = this.state.$.subscribe((value) => console.log('All', value));
   vm$ = this.state.select();
 
