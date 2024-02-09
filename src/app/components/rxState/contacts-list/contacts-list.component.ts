@@ -25,7 +25,8 @@ import { ContactModel } from '../../../models/contact.model';
 })
 export class ContactsListComponent {
   // This is how you define your actions
-  // They are so called action streams
+  // They are so called action streams that which your code
+  // can react on.
   actions = rxActions<{
     removeContact: ContactModel;
     editContact: ContactModel;
@@ -33,31 +34,27 @@ export class ContactsListComponent {
     rowUnselected: void;
   }>();
 
+  // Here your state is defined
   state = rxState<{ selectedRow: ContactModel; contacts: ContactModel[] }>(
     ({ connect, set }) => {
+      // Set the default state
       set({ contacts: [] });
+      // Connect the actions stream to the state
       connect(this.actions.rowSelected$, (_, event) => ({
         selectedRow: event.data,
       }));
-      connect(
-        this.actions.rowUnselected$.pipe(
-          map(() => ({ selectedRow: undefined }))
-        )
-      );
-      connect(
-        this.actions.removeContact$.pipe(
-          map(() => ({ selectedRow: undefined }))
-        )
-      );
-      connect(
-        this.actions.editContact$.pipe(map(() => ({ selectedRow: undefined })))
-      );
+      // Reset the selectedRow status
+      connect(this.actions.rowUnselected$, () => ({ selectedRow: undefined }));
+      connect(this.actions.removeContact$, () => ({ selectedRow: undefined }));
+      connect(this.actions.editContact$, () => ({ selectedRow: undefined }));
     }
   );
 
+  // Connect the contacts input to the state
   @Input() set contacts(contacts: ContactModel[]) {
     this.state.set({ contacts });
   }
+  // Observable outputs from actions and state
   @Output() editContact = this.actions.editContact$;
   @Output() removeContact = this.actions.removeContact$;
   @Output() rowSelected = this.state.select('selectedRow');

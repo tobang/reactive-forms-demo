@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { filter, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
-import { TableModule, TableRowSelectEvent } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 
 import { replaceOrAppend, uid } from 'radash';
 
@@ -50,7 +50,6 @@ export class ContactsOverviewComponent {
         )
       ),
       (oldstate, contact) => ({
-        // contacts: [...oldstate.contacts, contact],
         contacts: replaceOrAppend(
           oldstate.contacts,
           contact,
@@ -72,14 +71,14 @@ export class ContactsOverviewComponent {
       editedContact: contact,
     }));
   });
-  all$ = this.state.$.subscribe((value) => console.log('All', value));
+
   vm$ = this.state.select();
 
   constructor() {
-    this.actions.rowSelected$.subscribe((data) =>
+    /*  this.actions.rowSelected$.subscribe((data) =>
       console.log('Row selected', data)
     );
-    /* this.state
+    this.state
       .select('selectedRow')
       .subscribe((value) => console.log('Value', value)); */
   }
