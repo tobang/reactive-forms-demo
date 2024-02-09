@@ -1,4 +1,9 @@
-import { Component, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -28,6 +33,7 @@ import { FormDirective } from '../../../utils/form/form.directive';
   ],
   templateUrl: './upsert-contact.component.html',
   styleUrls: ['./upsert-contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertContactComponent {
   actions = rxActions<{
