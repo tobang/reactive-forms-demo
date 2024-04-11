@@ -1,21 +1,23 @@
-<ng-container *ngIf="vm$ | async as vm">
+<!-- vm is a signal that is computed from the state -->
+<ng-container>
   <app-upsert-contact
     (submitForm)="actions.upsertContact($event)"
-    [contact]="vm.editedContact"
+    [contact]="vm.editedContact()"
   ></app-upsert-contact>
   <hr />
   <div class="table-container">
     <h2>Contacts</h2>
     <app-contacts-list
-      [contacts]="vm.contacts"
+      [contacts]="vm.contacts()"
       (rowSelected)="actions.rowSelected($event)"
       (rowUnSelected)="actions.rowUnselected()"
       (removeContact)="actions.removeContact($event)"
       (editContact)="actions.editContact($event)"
     >
     </app-contacts-list>
-    <div class="selected" *ifNotObjectEmpty="vm.selectedRow">
-      Selected contact: {{ vm.selectedRow.firstName }} {{ vm.selectedRow.lastName }}
+    <!-- Custom structural directive example: *ifNotObjectEmpty -->
+    <div class="selected" *ifNotObjectEmpty="vm.selectedRow()">
+      Selected contact: {{ vm.selectedRow().firstName }} {{ vm.selectedRow().lastName }}
     </div>
   </div>
 </ng-container>

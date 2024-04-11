@@ -42,13 +42,18 @@ export class ContactsOverviewComponent {
     selectedRow: ContactModel;
     editedContact: ContactModel;
   }>(({ connect, set }) => {
+    // This is where the initial state is set.
     set({ contacts: [] });
+
+    // Connect the upserContact action and set state accordingly
     connect(
       this.actions.upsertContact$.pipe(
+        // If the contact has an id it already exists, otherwise give the contact an uid
         map((contact) =>
           'id' in contact ? contact : { ...contact, ...{ id: uid(7) } }
         )
       ),
+      // Update the state - if the contact exist we replace otherwise we append
       (oldstate, contact) => ({
         contacts: replaceOrAppend(
           oldstate.contacts,
@@ -72,14 +77,18 @@ export class ContactsOverviewComponent {
     }));
   });
 
-  vm$ = this.state.select();
+  // This converts the state to a signal, that can be consumed in the template
+  private viewModel = this.state.computed(
+    ({ contacts, selectedRow, editedContact }) => ({
+      contacts,
+      selectedRow,
+      editedContact,
+    })
+  );
 
-  constructor() {
-    /*  this.actions.rowSelected$.subscribe((data) =>
-      console.log('Row selected', data)
-    );
-    this.state
-      .select('selectedRow')
-      .subscribe((value) => console.log('Value', value)); */
+  protected get vm() {
+    return this.viewModel();
   }
+
+  constructor() {}
 }

@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { map } from 'rxjs';
-
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { rxActions } from '@rx-angular/state/actions';
@@ -25,7 +23,7 @@ import { ContactModel } from '../../../models/contact.model';
 })
 export class ContactsListComponent {
   // This is how you define your actions
-  // They are so called action streams that which your code
+  // They are so called action streams, that your code
   // can react on.
   actions = rxActions<{
     removeContact: ContactModel;
@@ -39,7 +37,7 @@ export class ContactsListComponent {
     ({ connect, set }) => {
       // Set the default state
       set({ contacts: [] });
-      // Connect the actions stream to the state
+      // Connect action stream to the state
       connect(this.actions.rowSelected$, (_, event) => ({
         selectedRow: event.data,
       }));
@@ -60,5 +58,12 @@ export class ContactsListComponent {
   @Output() rowSelected = this.state.select('selectedRow');
   @Output() rowUnSelected = this.actions.rowUnselected$;
 
-  vm$ = this.state.select();
+  // This is your viewModel as Signals
+  private readonly viewModel = this.state.computed(
+    ({ selectedRow, contacts }) => ({ selectedRow, contacts })
+  );
+
+  protected get vm() {
+    return this.viewModel();
+  }
 }

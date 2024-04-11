@@ -43,9 +43,11 @@ export class UpsertContactComponent {
 
   state = rxState<{ form: ContactModel }>(({ connect, set }) => {
     set({ form: {} });
-    connect(this.actions.formValueChange$, (oldstate, form) => ({
-      form: assign(oldstate.form, form),
-    }));
+    connect(this.actions.formValueChange$, (oldstate, form) => {
+      return {
+        form: assign(oldstate.form, form),
+      };
+    });
   });
 
   @Output() submitForm = this.actions.submit$;
@@ -54,7 +56,7 @@ export class UpsertContactComponent {
   }
 
   // View
-  form$ = this.state.select('form');
+  form = this.state.signal('form');
 
   onSubmit() {
     this.actions.submit(this.state.get('form'));

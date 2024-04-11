@@ -1,4 +1,4 @@
-<div class="form-container" *ngIf="this.form$ | async as form">
+<div class="form-container">
   <h2>Contact form</h2>
   <form
     (formValueChange)="actions.formValueChange($event)"
@@ -9,7 +9,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="form.firstName"
+        [ngModel]="form().firstName"
         name="firstName"
         id="firstName"
       />
@@ -19,7 +19,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="form.lastName"
+        [ngModel]="form().lastName"
         name="lastName"
         id="lastName"
       />
@@ -27,7 +27,7 @@
 
     <ng-container ngModelGroup="addresses">
       <ng-container ngModelGroup="homeAddress">
-        <app-address [address]="form.addresses?.homeAddress"></app-address>
+        <app-address [address]="form().addresses?.homeAddress"></app-address>
       </ng-container>
     </ng-container>
 
