@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
+import { rxEffects } from '@rx-angular/state/effects';
 import { TableModule } from 'primeng/table';
 
 import { replaceOrAppend, uid } from 'radash';
@@ -36,6 +37,7 @@ export class ContactsOverviewComponent {
     editContact: ContactModel;
     rowSelected: ContactModel;
     rowUnselected: void;
+    openDialog: void;
   }>();
   state = rxState<{
     contacts: ContactModel[];
@@ -75,6 +77,14 @@ export class ContactsOverviewComponent {
     connect(this.actions.editContact$, (_, contact) => ({
       editedContact: contact,
     }));
+  });
+
+  // This is just an example of how to implement an effect
+  // It is not referenced anywhere.
+  private readonly effects = rxEffects(({ register }) => {
+    register(this.actions.openDialog$, () => {
+      console.log('Open dialog');
+    });
   });
 
   // This converts the state to a signal, that can be consumed in the template

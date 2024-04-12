@@ -25,7 +25,7 @@ export class ContactsListComponent {
   // This is how you define your actions
   // They are so called action streams, that your code
   // can react on.
-  actions = rxActions<{
+  protected readonly actions = rxActions<{
     removeContact: ContactModel;
     editContact: ContactModel;
     rowSelected: TableRowSelectEvent;
@@ -33,20 +33,21 @@ export class ContactsListComponent {
   }>();
 
   // Here your state is defined
-  state = rxState<{ selectedRow: ContactModel; contacts: ContactModel[] }>(
-    ({ connect, set }) => {
-      // Set the default state
-      set({ contacts: [] });
-      // Connect action stream to the state
-      connect(this.actions.rowSelected$, (_, event) => ({
-        selectedRow: event.data,
-      }));
-      // Reset the selectedRow status
-      connect(this.actions.rowUnselected$, () => ({ selectedRow: undefined }));
-      connect(this.actions.removeContact$, () => ({ selectedRow: undefined }));
-      connect(this.actions.editContact$, () => ({ selectedRow: undefined }));
-    }
-  );
+  private readonly state = rxState<{
+    selectedRow: ContactModel;
+    contacts: ContactModel[];
+  }>(({ connect, set }) => {
+    // Set the default state
+    set({ contacts: [] });
+    // Connect action stream to the state
+    connect(this.actions.rowSelected$, (_, event) => ({
+      selectedRow: event.data,
+    }));
+    // Reset the selectedRow status
+    connect(this.actions.rowUnselected$, () => ({ selectedRow: undefined }));
+    connect(this.actions.removeContact$, () => ({ selectedRow: undefined }));
+    connect(this.actions.editContact$, () => ({ selectedRow: undefined }));
+  });
 
   // Connect the contacts input to the state
   @Input() set contacts(contacts: ContactModel[]) {
