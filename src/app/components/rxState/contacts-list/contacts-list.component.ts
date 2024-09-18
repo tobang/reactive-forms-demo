@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,12 +11,14 @@ import { rxActions } from '@rx-angular/state/actions';
 import { ButtonModule } from 'primeng/button';
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 
+import { map } from 'rxjs';
+import { isObjectEmpty } from 'src/app/utils/general/is-object-empty';
 import { ContactModel } from '../../../models/contact.model';
 
 @Component({
   selector: 'app-contacts-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule],
+  imports: [TableModule, ButtonModule],
   templateUrl: './contacts-list.component.html',
   styleUrls: ['./contacts-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,13 +40,13 @@ export class ContactsListComponent {
     contacts: ContactModel[];
   }>(({ connect, set }) => {
     // Set the default state
-    set({ contacts: [] });
+    set({ contacts: [], selectedRow: {} });
     // Connect action stream to the state
     connect(this.actions.rowSelected$, (_, event) => ({
       selectedRow: event.data,
     }));
     // Reset the selectedRow status
-    connect(this.actions.rowUnselected$, () => ({ selectedRow: undefined }));
+    connect(this.actions.rowUnselected$.pipe(map(() => ({ selectedRow: {} }))));
     connect(this.actions.removeContact$, () => ({ selectedRow: undefined }));
     connect(this.actions.editContact$, () => ({ selectedRow: undefined }));
   });
@@ -63,9 +65,12 @@ export class ContactsListComponent {
   public readonly vm = this.state.computed(({ selectedRow, contacts }) => ({
     selectedRow: selectedRow(),
     contacts: contacts(),
+    buttonsVisible: isObjectEmpty(selectedRow()) ? false : true,
   }));
 
   constructor() {
-    this.state.select().subscribe((data) => console.log('Data', data));
+    this.state
+      .select('selectedRow')
+      .subscribe((data) => console.log('Data', data));
   }
 }

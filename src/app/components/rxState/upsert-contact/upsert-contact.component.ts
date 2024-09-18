@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,15 +24,14 @@ import { AddressComponent } from './address/address.component';
   selector: 'app-upsert-contact',
   standalone: true,
   imports: [
-    CommonModule,
     InputNumberModule,
     InputTextModule,
     FormsModule,
     ButtonModule,
     CheckboxModule,
     AddressComponent,
-    FormDirective,
-  ],
+    FormDirective
+],
   templateUrl: './upsert-contact.component.html',
   styleUrls: ['./upsert-contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

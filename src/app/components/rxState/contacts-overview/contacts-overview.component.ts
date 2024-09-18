@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { map } from 'rxjs';
 
@@ -20,12 +20,11 @@ import { IfNotObjectEmptyDirective } from '../../../utils/directives/if-not-obje
   selector: 'app-contacts-overview',
   standalone: true,
   imports: [
-    CommonModule,
     UpsertContactComponent,
     TableModule,
     ContactsListComponent,
-    IfNotObjectEmptyDirective,
-  ],
+    IfNotObjectEmptyDirective
+],
   templateUrl: './contacts-overview.component.html',
   styleUrls: ['./contacts-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
