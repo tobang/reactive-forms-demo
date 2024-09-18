@@ -25,6 +25,19 @@
       />
     </div>
 
+    <div class="flex-column">
+      <label for="age">Age</label>
+      <p-inputNumber [ngModel]="form().age" name="age" id="age"></p-inputNumber>
+    </div>
+    <div class="flex-column">
+      <label for="salary">Salary</label>
+      <p-inputNumber
+        [ngModel]="form().salary"
+        name="salary"
+        id="salary"
+      ></p-inputNumber>
+    </div>
+
     <ng-container ngModelGroup="addresses">
       <ng-container ngModelGroup="homeAddress">
         <app-address [address]="form().addresses?.homeAddress"></app-address>
@@ -39,5 +52,4 @@
       class="p-button-success"
     ></button>
   </form>
-
 </div>

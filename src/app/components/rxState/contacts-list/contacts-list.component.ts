@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { TableModule, TableRowSelectEvent } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { rxActions } from '@rx-angular/state/actions';
 import { rxState } from '@rx-angular/state';
+import { rxActions } from '@rx-angular/state/actions';
+import { ButtonModule } from 'primeng/button';
+import { TableModule, TableRowSelectEvent } from 'primeng/table';
 
 import { ContactModel } from '../../../models/contact.model';
 
@@ -60,11 +60,12 @@ export class ContactsListComponent {
   @Output() rowUnSelected = this.actions.rowUnselected$;
 
   // This is your viewModel as Signals
-  private readonly viewModel = this.state.computed(
-    ({ selectedRow, contacts }) => ({ selectedRow, contacts })
-  );
+  public readonly vm = this.state.computed(({ selectedRow, contacts }) => ({
+    selectedRow: selectedRow(),
+    contacts: contacts(),
+  }));
 
-  protected get vm() {
-    return this.viewModel();
+  constructor() {
+    this.state.select().subscribe((data) => console.log('Data', data));
   }
 }

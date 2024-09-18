@@ -4,9 +4,9 @@ export interface ContactModel {
   id?: string;
   firstName?: string;
   lastName?: string;
+  salary?: number;
+  age?: number;
   addresses?: {
     homeAddress?: AddressModel;
-    workAddress?: AddressModel;
-    includeWorkAddress?: boolean;
   };
 }

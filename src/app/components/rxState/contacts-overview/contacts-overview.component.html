@@ -1,11 +1,21 @@
 <!-- vm is a signal that is computed from the state -->
-<ng-container>
-  <app-upsert-contact
-    (submitForm)="actions.upsertContact($event)"
-    [contact]="vm.editedContact()"
-  ></app-upsert-contact>
-  <hr />
+<div class="page">
+  <div class="top-bar">
+    <h2>Contact application</h2>
+    <div class="stats">
+      <div class="stat-item">Number of employees:</div>
+      <div class="stat-item">Average salery:</div>
+      <div class="stat-item">Average age:</div>
+    </div>
+  </div>
+  <div class="form-container">
+    <app-upsert-contact
+      (submitForm)="actions.upsertContact($event)"
+      [contact]="vm.editedContact()"
+    ></app-upsert-contact>
+  </div>
   <div class="table-container">
+    <hr width="100%" size="2" />
     <h2>Contacts</h2>
     <app-contacts-list
       [contacts]="vm.contacts()"
@@ -17,7 +27,8 @@
     </app-contacts-list>
     <!-- Custom structural directive example: *ifNotObjectEmpty -->
     <div class="selected" *ifNotObjectEmpty="vm.selectedRow()">
-      Selected contact: {{ vm.selectedRow().firstName }} {{ vm.selectedRow().lastName }}
+      Selected contact: {{ vm.selectedRow().firstName }}
+      {{ vm.selectedRow().lastName }}
     </div>
   </div>
-</ng-container>
+</div>

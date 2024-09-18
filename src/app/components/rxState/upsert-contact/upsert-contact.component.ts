@@ -1,29 +1,31 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
 import { assign } from 'radash';
 
-import { AddressComponent } from './address/address.component';
 import { ContactModel } from '../../../models/contact.model';
 import { FormDirective } from '../../../utils/form/form.directive';
+import { AddressComponent } from './address/address.component';
 
 @Component({
   selector: 'app-upsert-contact',
   standalone: true,
   imports: [
     CommonModule,
+    InputNumberModule,
     InputTextModule,
     FormsModule,
     ButtonModule,
