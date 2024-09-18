@@ -4,7 +4,7 @@
     <input
       type="text"
       pInputText
-      [ngModel]="address?.street"
+      [ngModel]="address()?.street"
       name="street"
       id="street"
       style="width: 530px"
@@ -16,7 +16,7 @@
     <input
       type="text"
       pInputText
-      [ngModel]="address?.zipcode"
+      [ngModel]="address()?.zipcode"
       name="zipcode"
       id="zipcode"
     />
@@ -26,7 +26,7 @@
     <input
       type="text"
       pInputText
-      [ngModel]="address?.city"
+      [ngModel]="address()?.city"
       name="city"
       id="city"
     />

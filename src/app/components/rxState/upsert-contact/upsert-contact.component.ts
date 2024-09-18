@@ -2,9 +2,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  Output,
-} from '@angular/core';
+  Input, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
@@ -19,6 +17,7 @@ import { assign } from 'radash';
 import { ContactModel } from '../../../models/contact.model';
 import { FormDirective } from '../../../utils/form/form.directive';
 import { AddressComponent } from './address/address.component';
+import { outputFromObservable } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-upsert-contact',
@@ -51,7 +50,7 @@ export class UpsertContactComponent {
     });
   });
 
-  @Output() submitForm = this.actions.submit$;
+  submitForm = outputFromObservable(this.actions.submit$);
   @Input() set contact(contact: ContactModel | undefined) {
     this.state.set({ form: contact ?? {} });
   }

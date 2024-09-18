@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,5 +15,5 @@ import { AddressModel } from '../../../../models/address.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressComponent {
-  @Input() public address: AddressModel | undefined;
+  public address = input<AddressModel>();
 }

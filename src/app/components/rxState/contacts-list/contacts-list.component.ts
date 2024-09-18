@@ -2,9 +2,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  Output,
-} from '@angular/core';
+  Input, input, output } from '@angular/core';
 
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
@@ -14,6 +12,7 @@ import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { map } from 'rxjs';
 import { isObjectEmpty } from 'src/app/utils/general/is-object-empty';
 import { ContactModel } from '../../../models/contact.model';
+import { outputFromObservable } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-contacts-list',
@@ -56,10 +55,10 @@ export class ContactsListComponent {
     this.state.set({ contacts });
   }
   // Observable outputs from actions and state
-  @Output() editContact = this.actions.editContact$;
-  @Output() removeContact = this.actions.removeContact$;
-  @Output() rowSelected = this.state.select('selectedRow');
-  @Output() rowUnSelected = this.actions.rowUnselected$;
+  editContact = outputFromObservable(this.actions.editContact$);
+  removeContact = outputFromObservable(this.actions.removeContact$);
+  rowSelected = outputFromObservable(this.state.select('selectedRow'));
+  rowUnSelected = outputFromObservable(this.actions.rowUnselected$);
 
   // This is your viewModel as Signals
   public readonly vm = this.state.computed(({ selectedRow, contacts }) => ({

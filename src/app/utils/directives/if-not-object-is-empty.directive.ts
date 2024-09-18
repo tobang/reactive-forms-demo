@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Directive, inject, Input, OnInit } from '@angular/core';
+import { Directive, inject, Input, OnInit, input } from '@angular/core';
 import { isObjectEmpty } from '../general/is-object-empty';
 import { notNullOrUndefined } from '../general/not-null-undefined';
 
