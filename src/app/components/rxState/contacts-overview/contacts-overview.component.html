@@ -10,25 +10,25 @@
   </div>
   <div class="form-container">
     <app-upsert-contact
-      (submitForm)="actions.upsertContact($event)"
-      [contact]="vm.editedContact()"
+      (submitForm)="upsertContact($event)"
+      [contact]="store.editedContact()"
     ></app-upsert-contact>
   </div>
   <div class="table-container">
     <hr width="100%" size="2" />
     <h2>Contacts</h2>
     <app-contacts-list
-      [contacts]="vm.contacts()"
-      (rowSelected)="actions.rowSelected($event)"
-      (rowUnSelected)="actions.rowUnselected()"
-      (removeContact)="actions.removeContact($event)"
-      (editContact)="actions.editContact($event)"
+      [contacts]="store.contacts()"
+      (rowSelected)="rowSelected($event)"
+      (rowUnSelected)="rowUnselected()"
+      (removeContact)="removeContact($event)"
+      (editContact)="editContact($event)"
     >
     </app-contacts-list>
     <!-- Custom structural directive example: *ifNotObjectEmpty -->
-    <div class="selected" *ifNotObjectEmpty="vm.selectedRow()">
-      Selected contact: {{ vm.selectedRow().firstName }}
-      {{ vm.selectedRow().lastName }}
+    <div class="selected" *ifNotObjectEmpty="store.selectedRow()">
+      Selected contact: {{ store.selectedRow().firstName }}
+      {{ store.selectedRow().lastName }}
     </div>
   </div>
 </div>
