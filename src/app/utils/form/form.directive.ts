@@ -1,9 +1,9 @@
 /* eslint-disable @angular-eslint/directive-selector */
-import { Directive, inject, Input, output } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { debounceTime, map, Observable } from 'rxjs';
-import { outputFromObservable } from "@angular/core/rxjs-interop";
+import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { debounceTime, map } from 'rxjs';
 
 @Directive({
   selector: 'form',
@@ -11,5 +11,10 @@ import { outputFromObservable } from "@angular/core/rxjs-interop";
 })
 export class FormDirective<T> {
   public readonly ngForm = inject(NgForm, { self: true });
-  formValueChange = outputFromObservable(this.ngForm.form.valueChanges.pipe(debounceTime(0), map(() => this.ngForm.form.getRawValue())));
+  formValueChange = outputFromObservable(
+    this.ngForm.form.valueChanges.pipe(
+      debounceTime(0),
+      map(() => this.ngForm.form.getRawValue())
+    )
+  );
 }

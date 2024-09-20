@@ -7,16 +7,18 @@ import { ContactsListComponent } from '../contacts-list/contacts-list.component'
 import { UpsertContactComponent } from '../upsert-contact/upsert-contact.component';
 
 import { IfNotObjectEmptyDirective } from '../../../utils/directives/if-not-object-is-empty.directive';
+import { ContactsOverviewHeaderComponent } from '../contacts-overview-header/contacts-overview-header.component';
 import { ContactsStore } from './store/contacts.store';
 
 @Component({
   selector: 'app-contacts-overview',
   standalone: true,
   imports: [
-    UpsertContactComponent,
-    TableModule,
     ContactsListComponent,
+    ContactsOverviewHeaderComponent,
+    UpsertContactComponent,
     IfNotObjectEmptyDirective,
+    TableModule,
   ],
   templateUrl: './contacts-overview.component.html',
   styleUrls: ['./contacts-overview.component.scss'],

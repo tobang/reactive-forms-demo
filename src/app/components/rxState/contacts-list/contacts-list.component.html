@@ -1,46 +1,45 @@
 <!--   Remember a Signal is referenced by a function call -->
-@if (vm(); as vm) {
-  @if (vm.buttonsVisible) {
-    <div class="button-container">
-      <p-button
-        label="Edit selected"
-        [text]="true"
-        [plain]="true"
-        (onClick)="actions.editContact(vm.selectedRow)"
-      ></p-button>
-      <p-button
-        label="Remove selected"
-        [text]="true"
-        [plain]="true"
-        (onClick)="actions.removeContact(vm.selectedRow)"
-      ></p-button>
-    </div>
-  }
-  <p-table
-    [value]="vm.contacts"
-    [tableStyle]="{ 'min-width': '38rem' }"
-    [selectionMode]="'single'"
-    [selection]="vm.selectedRow"
-    (onRowSelect)="actions.rowSelected($event)"
-    (onRowUnselect)="actions.rowUnselected()"
-    >
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Id</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Age</th>
-        <th>Salary</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-contact>
-      <tr [pSelectableRow]="contact">
-        <td>{{ contact.id }}</td>
-        <td>{{ contact.firstName }}</td>
-        <td>{{ contact.lastName }}</td>
-        <td>{{ contact.age }}</td>
-        <td>{{ contact.salary }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+
+@if (isRowSelected()) {
+<div class="button-container">
+  <p-button
+    label="Edit selected"
+    [text]="true"
+    [plain]="true"
+    (onClick)="onEditContact(selectedRow()!)"
+  ></p-button>
+  <p-button
+    label="Remove selected"
+    [text]="true"
+    [plain]="true"
+    (onClick)="onRemoveContact(selectedRow()!)"
+  ></p-button>
+</div>
 }
+<p-table
+  [value]="contacts()"
+  [tableStyle]="{ 'min-width': '38rem' }"
+  [selectionMode]="'single'"
+  [selection]="selectedRow()"
+  (onRowSelect)="onRowSelected($event)"
+  (onRowUnselect)="onRowUnSelected()"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Id</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Age</th>
+      <th>Salary</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-contact>
+    <tr [pSelectableRow]="contact">
+      <td>{{ contact.id }}</td>
+      <td>{{ contact.firstName }}</td>
+      <td>{{ contact.lastName }}</td>
+      <td>{{ contact.age }}</td>
+      <td>{{ contact.salary }}</td>
+    </tr>
+  </ng-template>
+</p-table>

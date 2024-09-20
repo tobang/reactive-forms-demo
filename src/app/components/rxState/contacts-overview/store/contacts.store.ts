@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable } from '@angular/core';
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
 import { replaceOrAppend, uid } from 'radash';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
 
 export type ContactsModel = {
@@ -29,6 +29,7 @@ export class ContactsStore {
     // Connect the upserContact action and set state accordingly
     connect(
       this.actions.upsertContact$.pipe(
+        tap((contact) => console.log('Contact', contact)),
         // If the contact has an id it already exists, otherwise give the contact an uid
         map((contact) =>
           'id' in contact ? contact : { ...contact, ...{ id: uid(7) } }
@@ -58,7 +59,48 @@ export class ContactsStore {
     }));
   });
 
+  // View model
   public readonly contacts = this.store.signal('contacts');
   public readonly selectedRow = this.store.signal('selectedRow');
   public readonly editedContact = this.store.signal('editedContact');
+
+  // Derived values
+  public readonly numberOfContacts = computed(() => this.contacts().length);
+
+  public readonly averageAge = computed(() => {
+    const contacts = this.contacts();
+    if (contacts.length > 0) {
+      return (
+        contacts.reduce((accumulator, contact) => {
+          return accumulator + (contact.age ?? 0);
+        }, 0) / contacts.length
+      );
+    } else {
+      return 0;
+    }
+  });
+
+  public readonly averageSalary = computed(() => {
+    const contacts = this.contacts();
+    if (contacts.length > 0) {
+      return (
+        contacts.reduce((accumulator, contact) => {
+          return accumulator + (contact.salary ?? 0);
+        }, 0) / contacts.length
+      );
+    } else {
+      return 0;
+    }
+  });
+
+  public readonly totalSalary = computed(() => {
+    const contacts = this.contacts();
+    if (contacts.length > 0) {
+      return contacts.reduce((accumulator, contact) => {
+        return accumulator + (contact.salary ?? 0);
+      }, 0);
+    } else {
+      return 0;
+    }
+  });
 }

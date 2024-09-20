@@ -1,15 +1,12 @@
 <div class="form-container">
   <h2>Contact form</h2>
-  <form
-    (formValueChange)="actions.formValueChange($event)"
-    (ngSubmit)="onSubmit()"
-  >
+  <form (formValueChange)="setFormValue($event)" (ngSubmit)="onSubmit()">
     <div class="flex-column">
       <label for="firstName">First name</label>
       <input
         type="text"
         pInputText
-        [ngModel]="form().firstName"
+        [ngModel]="formValue().firstName"
         name="firstName"
         id="firstName"
       />
@@ -19,7 +16,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="form().lastName"
+        [ngModel]="formValue().lastName"
         name="lastName"
         id="lastName"
       />
@@ -27,12 +24,16 @@
 
     <div class="flex-column">
       <label for="age">Age</label>
-      <p-inputNumber [ngModel]="form().age" name="age" id="age"></p-inputNumber>
+      <p-inputNumber
+        [ngModel]="formValue().age"
+        name="age"
+        id="age"
+      ></p-inputNumber>
     </div>
     <div class="flex-column">
       <label for="salary">Salary</label>
       <p-inputNumber
-        [ngModel]="form().salary"
+        [ngModel]="formValue().salary"
         name="salary"
         id="salary"
       ></p-inputNumber>
@@ -40,7 +41,9 @@
 
     <ng-container ngModelGroup="addresses">
       <ng-container ngModelGroup="homeAddress">
-        <app-address [address]="form().addresses?.homeAddress"></app-address>
+        <app-address
+          [address]="formValue().addresses?.homeAddress"
+        ></app-address>
       </ng-container>
     </ng-container>
 
