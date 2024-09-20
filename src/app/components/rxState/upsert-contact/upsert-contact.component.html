@@ -1,7 +1,13 @@
 <div class="form-container">
   <h2>Contact form</h2>
-  <form (formValueChange)="setFormValue($event)" (ngSubmit)="onSubmit()">
-    <div class="flex-column">
+  <form
+    [model]="formValue()"
+    [suite]="validationSuite()"
+    (formValueChange)="setFormValue($event)"
+    (validChange)="formValid.set($event || false)"
+    (ngSubmit)="onSubmit()"
+  >
+    <div validation-wrapper class="flex-column">
       <label for="firstName">First name</label>
       <input
         type="text"
@@ -11,7 +17,7 @@
         id="firstName"
       />
     </div>
-    <div class="flex-column">
+    <div validation-wrapper class="flex-column">
       <label for="lastName">Last name</label>
       <input
         type="text"
@@ -22,7 +28,7 @@
       />
     </div>
 
-    <div class="flex-column">
+    <div validation-wrapper class="flex-column">
       <label for="age">Age</label>
       <p-inputNumber
         [ngModel]="formValue().age"
@@ -30,7 +36,7 @@
         id="age"
       ></p-inputNumber>
     </div>
-    <div class="flex-column">
+    <div validation-wrapper class="flex-column">
       <label for="salary">Salary</label>
       <p-inputNumber
         [ngModel]="formValue().salary"

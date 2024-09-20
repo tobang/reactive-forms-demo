@@ -2,7 +2,7 @@ import { computed, Injectable } from '@angular/core';
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
 import { replaceOrAppend, uid } from 'radash';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
 
 export type ContactsModel = {
@@ -29,7 +29,6 @@ export class ContactsStore {
     // Connect the upserContact action and set state accordingly
     connect(
       this.actions.upsertContact$.pipe(
-        tap((contact) => console.log('Contact', contact)),
         // If the contact has an id it already exists, otherwise give the contact an uid
         map((contact) =>
           'id' in contact ? contact : { ...contact, ...{ id: uid(7) } }

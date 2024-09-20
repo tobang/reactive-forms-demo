@@ -1,0 +1,15 @@
+.input-wrapper__errors {
+  margin-top: 8px;
+  li {
+    list-style-type: none;
+  }
+  ul {
+    padding: 0px;
+    margin: 0px;
+  }
+}
+.input-wrapper__content {
+  display: flex;
+  flex-direction: column;
+}
+

@@ -44,12 +44,10 @@ export class ContactsListComponent {
 
   onRowUnSelected() {
     this.selectedRow.set(undefined);
-    console.log('Selected row', this.selectedRow());
     this.rowUnSelected.emit();
   }
 
   onEditContact(contact: ContactModel) {
-    console.log('Edit contact', this.selectedRow());
     this.editContact.emit(contact);
   }
 
