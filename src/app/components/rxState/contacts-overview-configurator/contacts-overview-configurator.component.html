@@ -1,0 +1,23 @@
+<div class="config-panel">
+  <p-checkbox
+    [(ngModel)]="includeValidation"
+    [binary]="true"
+    (ngModelChange)="includeValidationChanged($event)"
+    name="includeValidation"
+    inputId="includeValidation"
+  ></p-checkbox>
+  <label class="checkbox-label" for="includeValidation"
+    >Include validation</label
+  >
+
+  @if (includeValidation() === true) {
+  <p-checkbox
+    [ngModel]="isHRManager()"
+    [binary]="true"
+    (ngModelChange)="isHRMangerChanged($event)"
+    name="hrManager"
+    inputId="hrManager"
+  ></p-checkbox>
+  <label class="checkbox-label" for="hrManager">HR Manager</label>
+  }
+</div>

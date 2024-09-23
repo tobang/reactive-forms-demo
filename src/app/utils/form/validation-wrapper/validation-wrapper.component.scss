@@ -1,15 +1,24 @@
 .input-wrapper__errors {
-  margin-top: 8px;
   li {
     list-style-type: none;
+    &.warning {
+      color: #fc9328;
+      margin-top: 0.25rem;
+      line-height: 1.25rem;
+    }
+    &.p-error {
+      margin-top: 0.25rem;
+      line-height: 1.25rem;
+    }
   }
   ul {
     padding: 0px;
     margin: 0px;
   }
 }
+
 .input-wrapper__content {
   display: flex;
   flex-direction: column;
+  gap: var(--xs-100);
 }
-

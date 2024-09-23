@@ -10,6 +10,7 @@ export function addressValidations(
     enforce(model?.street).isNotBlank();
   });
   test(`${field}.city`, 'City is required', () => {
+    // warn();
     enforce(model?.city).isNotBlank();
   });
   test(`${field}.zipcode`, 'Zip code is required', () => {

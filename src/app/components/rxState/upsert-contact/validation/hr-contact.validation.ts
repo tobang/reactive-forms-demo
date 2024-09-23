@@ -4,7 +4,7 @@ import { addressValidations } from './address.validation';
 
 export type FieldNames = keyof ContactModel;
 
-export const createContactValidationSuite = () => {
+export const createHRContactValidationSuite = () => {
   return staticSuite((model: ContactModel, field: string) => {
     only(field);
 
@@ -22,10 +22,6 @@ export const createContactValidationSuite = () => {
 
     test<FieldNames>('salary', 'Salary is required', () => {
       enforce(model.salary).isNotBlank();
-    });
-
-    test<FieldNames>('salary', 'Salary cannot exceed 50.000', () => {
-      enforce(model.salary).lessThan(50000);
     });
 
     omitWhen(

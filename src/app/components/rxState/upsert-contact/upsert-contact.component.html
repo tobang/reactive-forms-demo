@@ -3,6 +3,7 @@
   <form
     [model]="formValue()"
     [suite]="validationSuite()"
+    [validationConfig]="validationConfig()"
     (formValueChange)="setFormValue($event)"
     (validChange)="formValid.set($event || false)"
     (ngSubmit)="onSubmit()"

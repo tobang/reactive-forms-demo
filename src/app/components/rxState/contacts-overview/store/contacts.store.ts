@@ -1,6 +1,7 @@
 import { computed, Injectable } from '@angular/core';
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
+import { debug } from 'ngxtension/debug';
 import { replaceOrAppend, uid } from 'radash';
 import { map } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
@@ -9,6 +10,8 @@ export type ContactsModel = {
   contacts: ContactModel[];
   selectedRow: ContactModel;
   editedContact: ContactModel;
+  includeValidation: boolean;
+  isHRManger: boolean;
 };
 
 export type ContactsActions = {
@@ -17,6 +20,8 @@ export type ContactsActions = {
   editContact: ContactModel;
   rowSelected: ContactModel;
   rowUnselected: void;
+  updateIncludeValidation: boolean;
+  updateHRManager: boolean;
 };
 
 @Injectable()
@@ -25,7 +30,7 @@ export class ContactsStore {
 
   private readonly store = rxState<ContactsModel>(({ connect, set }) => {
     // This is where the initial state is set.
-    set({ contacts: [] });
+    set({ contacts: [], includeValidation: false, isHRManger: false });
     // Connect the upserContact action and set state accordingly
     connect(
       this.actions.upsertContact$.pipe(
@@ -53,15 +58,22 @@ export class ContactsStore {
       contacts: state.contacts.filter((value) => value.id !== contact.id),
       selectedRow: {},
     }));
-    connect(this.actions.editContact$, (_, contact) => ({
-      editedContact: contact,
-    }));
+    connect(
+      this.actions.editContact$.pipe(debug('edit contact')),
+      (_, contact) => ({
+        editedContact: contact,
+      })
+    );
+    connect('includeValidation', this.actions.updateIncludeValidation$);
+    connect('isHRManger', this.actions.updateHRManager$);
   });
 
   // View model
   public readonly contacts = this.store.signal('contacts');
   public readonly selectedRow = this.store.signal('selectedRow');
   public readonly editedContact = this.store.signal('editedContact');
+  public readonly includeValidation = this.store.signal('includeValidation');
+  public readonly isHRManger = this.store.signal('isHRManger');
 
   // Derived values
   public readonly numberOfContacts = computed(() => this.contacts().length);

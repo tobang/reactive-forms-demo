@@ -7,6 +7,7 @@ import { ContactsListComponent } from '../contacts-list/contacts-list.component'
 import { UpsertContactComponent } from '../upsert-contact/upsert-contact.component';
 
 import { IfNotObjectEmptyDirective } from '../../../utils/directives/if-not-object-is-empty.directive';
+import { ContactsOverviewConfiguratorComponent } from '../contacts-overview-configurator/contacts-overview-configurator.component';
 import { ContactsOverviewHeaderComponent } from '../contacts-overview-header/contacts-overview-header.component';
 import { ContactsStore } from './store/contacts.store';
 
@@ -15,6 +16,7 @@ import { ContactsStore } from './store/contacts.store';
   standalone: true,
   imports: [
     ContactsListComponent,
+    ContactsOverviewConfiguratorComponent,
     ContactsOverviewHeaderComponent,
     UpsertContactComponent,
     IfNotObjectEmptyDirective,

@@ -3,10 +3,15 @@
   <div class="top-container">
     <app-contacts-overview-header></app-contacts-overview-header>
   </div>
+  <div class="config-container">
+    <app-contacts-overview-configurator></app-contacts-overview-configurator>
+  </div>
   <div class="form-container">
     <app-upsert-contact
       (submitForm)="upsertContact($event)"
       [contact]="store.editedContact()"
+      [includeValidation]="store.includeValidation()"
+      [isHRManager]="store.isHRManger()"
     ></app-upsert-contact>
   </div>
   <div class="table-container">
