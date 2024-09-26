@@ -1,7 +1,6 @@
 import { computed, Injectable } from '@angular/core';
 import { rxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
-import { debug } from 'ngxtension/debug';
 import { replaceOrAppend, uid } from 'radash';
 import { map } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
@@ -58,12 +57,9 @@ export class ContactsStore {
       contacts: state.contacts.filter((value) => value.id !== contact.id),
       selectedRow: {},
     }));
-    connect(
-      this.actions.editContact$.pipe(debug('edit contact')),
-      (_, contact) => ({
-        editedContact: contact,
-      })
-    );
+    connect(this.actions.editContact$, (_, contact) => ({
+      editedContact: contact,
+    }));
     connect('includeValidation', this.actions.updateIncludeValidation$);
     connect('isHRManger', this.actions.updateHRManager$);
   });

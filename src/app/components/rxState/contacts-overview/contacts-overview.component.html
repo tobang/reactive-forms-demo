@@ -16,7 +16,7 @@
   </div>
   <div class="table-container">
     <hr width="100%" size="2" />
-    <h2>Contacts</h2>
+    <h2>Employees</h2>
     <app-contacts-list
       [contacts]="store.contacts()"
       (rowSelected)="rowSelected($event)"
@@ -27,7 +27,7 @@
     </app-contacts-list>
     <!-- Custom structural directive example: *ifNotObjectEmpty -->
     <div class="selected" *ifNotObjectEmpty="store.selectedRow()">
-      Selected contact: {{ store.selectedRow().firstName }}
+      Selected employee: {{ store.selectedRow().firstName }}
       {{ store.selectedRow().lastName }}
     </div>
   </div>

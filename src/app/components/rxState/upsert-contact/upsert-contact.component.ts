@@ -1,11 +1,10 @@
 import {
   Component,
   computed,
-  inject,
   Input,
   output,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -19,14 +18,11 @@ import { injectDestroy } from 'ngxtension/inject-destroy';
 
 import { ContactModel } from '../../../models/contact.model';
 
-import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { JsonPipe } from '@angular/common';
+import { skip, Subject, takeUntil } from 'rxjs';
 import { FormDirective } from 'src/app/utils/form/form.directive';
-import {
-  TemplateDrivenForms,
-  TemplateDrivenFormsViewProviders,
-} from 'src/app/utils/form/template-driven-forms';
+import { TemplateDrivenForms } from 'src/app/utils/form/template-driven-forms';
 import { staticSuite } from 'vest';
-import { ContactsStore } from '../contacts-overview/store/contacts.store';
 import { AddressComponent } from './address/address.component';
 import { createContactValidationSuite } from './validation/contact.validation';
 import { createHRContactValidationSuite } from './validation/hr-contact.validation';
@@ -41,31 +37,30 @@ import { createHRContactValidationSuite } from './validation/hr-contact.validati
     ButtonModule,
     CheckboxModule,
     AddressComponent,
+    JsonPipe,
     FormDirective,
     TemplateDrivenForms,
   ],
   templateUrl: './upsert-contact.component.html',
   styleUrls: ['./upsert-contact.component.scss'],
-  viewProviders: [TemplateDrivenFormsViewProviders],
 })
 export class UpsertContactComponent {
-  @ViewChild(NgForm) ngForm: NgForm | undefined;
+  protected readonly ngForm = viewChild.required(NgForm);
 
-  protected readonly formValue = signal<ContactModel>({});
+  protected readonly formValue = signal<ContactModel>({
+    firstName: 'Test',
+  });
   protected readonly formValid = signal<boolean>(false);
   protected readonly validationConfig = signal({
     relatedFieldsValidation: {
-      address: ['name'],
+      age: ['salary'],
     },
   });
   private readonly changeValidation$ = new Subject<boolean>();
   private readonly destroy$ = injectDestroy();
-  private readonly store = inject(ContactsStore);
   private readonly isManager = signal(false);
 
-  changeValidationSignal = toSignal(
-    this.changeValidation$.pipe(distinctUntilChanged())
-  );
+  changeValidationSignal = toSignal(this.changeValidation$.pipe(skip(2)));
 
   protected readonly validationSuite = computed(() => {
     if (this.changeValidationSignal()) {
@@ -95,22 +90,26 @@ export class UpsertContactComponent {
   }
 
   @Input({ required: true }) set isHRManager(isHRManager: boolean) {
+    this.changeValidation$.next(true);
     this.isManager.set(isHRManager);
-    this.changeValidation$.next(isHRManager);
   }
 
   constructor() {
     // We have to reset the form when the validation changes
     this.changeValidation$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const formValue = { ...this.formValue(), id: this.contactId };
-      this.ngForm?.form.reset(formValue);
-      this.ngForm?.form.markAllAsTouched();
+      this.ngForm().form.reset(formValue);
+      this.ngForm().form.markAllAsTouched();
     });
   }
 
   @Input() set contact(contact: ContactModel | undefined) {
     this.contactId = contact?.id ?? '';
     this.formValue.set(contact ?? {});
+  }
+
+  showReactiveForm() {
+    console.log(this.ngForm().form);
   }
 
   onSubmit() {
@@ -122,8 +121,8 @@ export class UpsertContactComponent {
       );
       this.formValue.set({});
       this.contactId = '';
-      this.ngForm?.form.markAsPristine();
-      this.ngForm?.form.markAsUntouched();
+      this.ngForm().form.markAsPristine();
+      this.ngForm().form.markAsUntouched();
     }
   }
 }

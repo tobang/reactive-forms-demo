@@ -1,65 +1,81 @@
-<div class="form-container">
-  <h2>Contact form</h2>
-  <form
-    [model]="formValue()"
-    [suite]="validationSuite()"
-    [validationConfig]="validationConfig()"
-    (formValueChange)="setFormValue($event)"
-    (validChange)="formValid.set($event || false)"
-    (ngSubmit)="onSubmit()"
-  >
-    <div validation-wrapper class="flex-column">
-      <label for="firstName">First name</label>
-      <input
-        type="text"
-        pInputText
-        [ngModel]="formValue().firstName"
-        name="firstName"
-        id="firstName"
-      />
-    </div>
-    <div validation-wrapper class="flex-column">
-      <label for="lastName">Last name</label>
-      <input
-        type="text"
-        pInputText
-        [ngModel]="formValue().lastName"
-        name="lastName"
-        id="lastName"
-      />
-    </div>
+<div class="form-page">
+  <h2>Employee form</h2>
+  <div class="form-container">
+    <div class="left"></div>
+    <div class="center">
+      <form
+        [model]="formValue()"
+        [suite]="validationSuite()"
+        [validationConfig]="validationConfig()"
+        (formValueChange)="setFormValue($event)"
+        (validChange)="formValid.set($event || false)"
+        (ngSubmit)="onSubmit()"
+      >
+        <div validation-wrapper class="flex-column">
+          <label for="firstName">First name</label>
+          <input
+            type="text"
+            pInputText
+            [ngModel]="formValue().firstName"
+            name="firstName"
+            id="firstName"
+          />
+        </div>
+        <div validation-wrapper class="flex-column">
+          <label for="lastName">Last name</label>
+          <input
+            type="text"
+            pInputText
+            [ngModel]="formValue().lastName"
+            name="lastName"
+            id="lastName"
+          />
+        </div>
 
-    <div validation-wrapper class="flex-column">
-      <label for="age">Age</label>
-      <p-inputNumber
-        [ngModel]="formValue().age"
-        name="age"
-        id="age"
-      ></p-inputNumber>
-    </div>
-    <div validation-wrapper class="flex-column">
-      <label for="salary">Salary</label>
-      <p-inputNumber
-        [ngModel]="formValue().salary"
-        name="salary"
-        id="salary"
-      ></p-inputNumber>
-    </div>
+        <div validation-wrapper class="flex-column">
+          <label for="age">Age</label>
+          <p-inputNumber
+            [ngModel]="formValue().age"
+            name="age"
+            id="age"
+          ></p-inputNumber>
+        </div>
+        <div validation-wrapper class="flex-column">
+          <label for="salary">Salary</label>
+          <p-inputNumber
+            [ngModel]="formValue().salary"
+            name="salary"
+            id="salary"
+          ></p-inputNumber>
+        </div>
 
-    <ng-container ngModelGroup="addresses">
-      <ng-container ngModelGroup="homeAddress">
-        <app-address
-          [address]="formValue().addresses?.homeAddress"
-        ></app-address>
-      </ng-container>
-    </ng-container>
+        <ng-container ngModelGroup="addresses">
+          <ng-container ngModelGroup="homeAddress">
+            <app-address
+              [address]="formValue().addresses?.homeAddress"
+            ></app-address>
+          </ng-container>
+        </ng-container>
 
-    <button pButton label="Submit" type="submit"></button>
-    <button
-      pButton
-      label="Reset"
-      type="reset"
-      class="p-button-success"
-    ></button>
-  </form>
+        <button pButton label="Submit" type="submit"></button>
+        <button
+          pButton
+          label="Reset"
+          type="reset"
+          class="p-button-success"
+        ></button>
+      </form>
+      <div class="button-show">
+        <button
+          pButton
+          label="Show form"
+          (click)="showReactiveForm()"
+          class="p-button-success"
+        ></button>
+      </div>
+    </div>
+    <div class="right">
+      <pre>{{ formValue() | json }}</pre>
+    </div>
+  </div>
 </div>

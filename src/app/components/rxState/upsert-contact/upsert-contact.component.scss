@@ -1,9 +1,24 @@
-.form-container {
+.form-page {
   display: flex;
   align-items: center;
   flex-direction: column;
   margin-top: 20px;
   margin-bottom: 50px;
+  .form-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .center {
+      .button-show {
+        margin-top: 20px;
+      }
+    }
+  }
   form {
     margin-top: 50px;
     width: 700px;
