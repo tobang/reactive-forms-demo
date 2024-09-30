@@ -47,9 +47,7 @@ import { createHRContactValidationSuite } from './validation/hr-contact.validati
 export class UpsertContactComponent {
   protected readonly ngForm = viewChild.required(NgForm);
 
-  protected readonly formValue = signal<ContactModel>({
-    firstName: 'Test',
-  });
+  protected readonly formValue = signal<ContactModel>({});
   protected readonly formValid = signal<boolean>(false);
   protected readonly validationConfig = signal({
     relatedFieldsValidation: {
